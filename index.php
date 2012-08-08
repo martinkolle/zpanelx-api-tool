@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
 <title>ZpanelX API</title>
 <style type="text/css">
 body{background-color: #0C1021;-webkit-transition: background-color 0.5s ease-out;-moz-transition: background-color 0.5s ease-out;-ms-transition: background-color 0.5s ease-out;-o-transition: background-color 0.5s ease-out;transition: background-color 0.5s ease-out;margin:25px;font: 16px/20px Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;}
@@ -36,6 +35,9 @@ code,pre{color:#61CE3C;}
     enter your api informations and get everything back
     in one request.
 
+    Only edit Username and passwor if you should use it.
+    It is disabled if the value is user and pass.
+
     Design proadly stolen from css3please.com (great tool)
 
 ------------------------------------------------------------- */
@@ -44,8 +46,8 @@ code,pre{color:#61CE3C;}
 <div class="code">
 <span class="php_start">&lt;?php</span>
 	<span class="variable">$xmws</span> <span class="equal">=</span> <span class="new">new xmwsclient()</span><span class="end">;</span>
-	<span class="variable">$xmws</span><span class="arrow">-></span><span class="function">InitRequest(</span><input name="panel" type="text" value="<?php echo ($_POST['panel']) ? $_POST['panel'] : 'http://zpanel.domain.dk'; ?>" /><span class="comma">,</span><input name="module" type="text" value="<?php echo ($_POST['module']) ? $_POST['module'] : 'Module name'; ?>" /></span><span class="comma">,</span> <input name="function" type="text" value="<?php echo ($_POST['function']) ? $_POST['function'] : 'Webservice function'; ?>"/><span class="comma">,</span> <input name="api" type="text" value="<?php echo ($_POST['api']) ? $_POST['api'] : 'API code'; ?>" /><span class="comma">,</span><input name="user" type="text" value="<?php echo ($_POST['user']) ? $_POST['user'] : 'Username'; ?>" /><span class="comma">,</span><input name="pass" type="text" value="<?php echo ($_POST['pass']) ? $_POST['pass'] : 'Password'; ?>" /><span class="function">)</span><span class="end">;</span>
-	<span class="variable" style="vertical-align:top">$xmws</span><span class="arrow" style="vertical-align:top">-></span><span class="function" style="vertical-align:top">SetRequestData(</span></span><textarea name="data"><?php echo ($_POST['data']) ? $_POST['data'] : 'XML data'; ?></textarea><span class="function">)</span><spn class="end">;</span>
+	<span class="variable">$xmws</span><span class="arrow">-></span><span class="function">InitRequest(</span><input name="panel" type="text" value="<?php echo ($_POST['panel']) ? $_POST['panel'] : 'http://zpanel.domain.dk'; ?>" /><span class="comma">,</span><input name="module" type="text" value="<?php echo ($_POST['module']) ? $_POST['module'] : 'Module name'; ?>" /><span class="comma">,</span> <input name="function" type="text" value="<?php echo ($_POST['function']) ? $_POST['function'] : 'Webservice function'; ?>"/><span class="comma">,</span> <input name="api" type="text" value="<?php echo ($_POST['api']) ? $_POST['api'] : 'API code'; ?>" /><span class="comma">,</span><input name="user" type="text" value="<?php echo ($_POST['user']) ? $_POST['user'] : 'Username'; ?>" /><span class="comma">,</span><input name="pass" type="text" value="<?php echo ($_POST['pass']) ? $_POST['pass'] : 'Password'; ?>" /><span class="function">)</span><span class="end">;</span>
+	<span class="variable" style="vertical-align:top">$xmws</span><span class="arrow" style="vertical-align:top">-></span><span class="function" style="vertical-align:top">SetRequestData(</span><textarea name="data"><?php echo ($_POST['data']) ? $_POST['data'] : 'XML data'; ?></textarea><span class="function">)</span><span class="end">;</span>
 <span class="php_end">?&gt;</span><br />
 <input type="submit" value="Run code..." name="submit"/>
 </div>
@@ -109,6 +111,9 @@ function xml_highlight($s)
 		
 if($_POST['submit']){
 
+    $_POST['user'] = ($_POST['user'] == 'Username') ? '' : $_POST['user'];
+    $_POST['pass'] = ($_POST['pass'] == 'Password') ? '' : $_POST['pass'];
+
 	$xmws = new xmwsclient();
 	$xmws->InitRequest($_POST['panel'], $_POST['module'], $_POST['function'], $_POST['api'],$_POST['user'],$_POST['pass']);
 	$xmws->SetRequestData($_POST['data']);
@@ -129,6 +134,7 @@ if($_POST['submit']){
 	<div class="small code">
        <code>
 <?php echo xml_highlight(xml_pretty(stripslashes(trim($build_request)))); ?>
+
         </code>
 	</div>
 </div>
